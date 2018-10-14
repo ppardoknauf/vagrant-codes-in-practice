@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 yum upgrade -y
-yum -y install epel-release && yum -y install net-tools bind-utils wget
+yum -y install epel-release && yum -y install net-tools bind-utils wget unzip
 curl --silent --location https://rpm.nodesource.com/setup_8.x | sudo bash -
 yum install -y nodejs && yum install -y gcc-c++ make vim expect telnet strace
 npm install pm2 -g && pm2 completion install
