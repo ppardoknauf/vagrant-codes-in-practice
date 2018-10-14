@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-yum install -y java-1.8.0-openjdk.x86_64
+#yum install -y java-1.8.0-openjdk.x86_64
 mkdir /opt/nexus && cd /opt/nexus
 cd /opt/nexus
 wget http://www.sonatype.org/downloads/nexus-latest-bundle.tar.gz
