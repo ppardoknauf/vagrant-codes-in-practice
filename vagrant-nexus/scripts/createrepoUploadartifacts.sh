@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+sleep 30
 branchName="master"
 buildNumber="3"
 sed -i.bak "s/newAdmin/$1/g" /vagrant/scripts/temps/user.xml
