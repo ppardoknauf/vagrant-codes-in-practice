@@ -18,7 +18,7 @@ Vagrant.configure("2") do |golmos|
     end
     orasmusvm.vm.provision "shell", path: "scripts/install.sh"
     orasmusvm.vm.provision "shell", path: "scripts/mvncompile.sh"
-    orasmusvm.vm.provision "shell", path: "scripts/nexusinstall.sh"
+    orasmusvm.vm.provision "shell", path: "scripts/nexus2install.sh"
     orasmusvm.vm.provision :unix_reboot
     orasmusvm.vm.provision "shell", path: "scripts/createrepoUploadartifacts.sh", args: "#{nexusUser} #{ipAddr} #{appName}"
   end
