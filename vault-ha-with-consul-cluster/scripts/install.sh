@@ -6,8 +6,8 @@ sudo yum localinstall -y /home/vagrant/jdk-8u191-linux-x64.rpm
 sudo sed -i.bak -e 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
 sudo systemctl restart sshd
 sudo systemctl stop firewalld && sudo systemctl disable firewalld
-sudo echo 'export JAVA_HOME=/usr/java/jre1.8.0_181-amd64/bin/java' >> ~/.bashrc
-sudo echo 'export JAVA_HOME=/usr/java/jre1.8.0_181-amd64/bin/java' >> /home/vagrant/.bashrc
+sudo echo 'export JAVA_HOME=/usr/java/jdk1.8.0_191-amd64/bin' >> ~/.bashrc
+sudo echo 'export JAVA_HOME=/usr/java/jdk1.8.0_191-amd64/bin' >> /home/vagrant/.bashrc
 sudo sed -i.bak -e 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
 sudo sed -i.bak -e 's/keepcache=0/keepcache=1/' /etc/yum.conf 
 
