@@ -58,7 +58,7 @@ PIDFile=/var/run/$2/$2.pid
 PermissionsStartOnly=true
 ExecStartPre=-/bin/mkdir -p /var/run/$2
 ExecStartPre=/bin/chown -R $2:$2 /var/run/$2
-ExecStart=/bin/bash -c "/usr/local/bin/$2 agent -config-file=/etc/$2/client_agent.json -pid-file=/var/run/$2/$2.pid >> /var/log/$2/$2.log 2>&1"
+ExecStart=/bin/bash -c "/usr/local/bin/$2 agent -config-file=/etc/$2/client_agent.json -enable-script-checks -pid-file=/var/run/$2/$2.pid >> /var/log/$2/$2.log 2>&1"
 ExecReload=/bin/kill -HUP \$MAINPID
 KillMode=process
 KillSignal=SIGTERM
