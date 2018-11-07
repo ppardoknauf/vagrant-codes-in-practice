@@ -3,6 +3,7 @@
 
 sshportPoint = "200"
 bambooPass='Bamboo123'
+jiraDbPass='Jira123'
 current_dir = File.dirname(File.expand_path(__FILE__))
 Vagrant.configure("2") do |vmconf|
   require './vagrant-provision-reboot-plugin'
@@ -26,11 +27,11 @@ Vagrant.configure("2") do |vmconf|
     jira.ssh.forward_agent = true
     jira.vm.network :forwarded_port, guest: 22, host: "#{sshportPoint}22", id: "ssh"
     jira.vm.provider :virtualbox do |v1|
-      v1.customize ["modifyvm", :id, "--memory", 1024]
+      v1.customize ["modifyvm", :id, "--memory", 3072]
       v1.customize ["modifyvm", :id, "--name", "jira"]
     end
-    jira.vm.provision "shell", path: "scripts/install.sh"
-    jira.vm.provision :unix_reboot
-    #jira.vm.provision "shell", path: "scripts/jirainstall.sh", args: "consul vault vagrant"
+    #jira.vm.provision "shell", path: "scripts/install.sh"
+    #jira.vm.provision :unix_reboot
+    jira.vm.provision "shell", path: "scripts/jirainstall.sh", args: "jira #{jiraDbPass}"
   end
 end
