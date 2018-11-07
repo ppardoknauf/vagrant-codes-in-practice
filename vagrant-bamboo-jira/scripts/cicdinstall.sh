@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 useradd -m -d /home/$1 -c "Bamboo role account" --shell=/sbin/nologin $1 
-mkdir /etc/$1 && chown -R $1:$1 
+mkdir /etc/$1 
 cd /etc/$1 && wget https://www.atlassian.com/software/bamboo/downloads/binary/atlassian-bamboo-6.6.2.tar.gz
 version=$(ls atlassian-bamboo-*.*.*.tar.gz | awk -F '-' '{ print $3}' | sed 's/.tar.gz//g')
 tar -zxvf atlassian-bamboo-$version.tar.gz && ln -s atlassian-bamboo-$version current
