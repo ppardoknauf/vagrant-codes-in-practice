@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
 hostname=`hostname -s`
-declare -a nodelist=('node1' 'node2' 'node3' 'node4')
+declare -a nodelist=('dockernode1' 'dockernode2' 'dockernode3' 'dockernode4')
 
 for node in "$nodelist"
 do
-    if [ "$hostname" = "node3" -o "$hostname" = "node4" ]
+    if [ "$hostname" = "dockernode3" -o "$hostname" = "dockernode4" ]
     then
         echo This Swarm node configured as Worker!!!
 	/vagrant/scripts/cometoworker.sh
