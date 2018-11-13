@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+sudo apt-get update && sudo apt-get dist-upgrade -y
 sudo apt-get remove -y docker docker-engine docker.io
 sudo apt-get update && sudo apt-get install --allow-unauthenticated -y apt-transport-https ca-certificates curl software-properties-common
 sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
