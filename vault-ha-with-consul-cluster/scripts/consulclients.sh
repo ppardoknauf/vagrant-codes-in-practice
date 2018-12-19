@@ -18,7 +18,18 @@ sudo cat <<EOF > /etc/$2/client_agent.json
   "encrypt": "jY9fNFIJMB1tq3AAMhrNXQ==",
   "enable_syslog": true,
   "acl_enforce_version_8": false,
-
+  "dns_config": {
+    "allow_stale": true,
+    "max_stale": "2s",
+    "node_ttl": "30s",
+    "service_ttl": {
+      "*": "10s"
+    },
+    "a_record_limit": 1,
+    "enable_truncate": false,
+    "only_passing": false
+  },
+  
   "enable_debug": true,
   "addresses": {
     "https": "0.0.0.0"
