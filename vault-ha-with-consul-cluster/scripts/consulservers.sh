@@ -21,6 +21,17 @@ sudo cat <<EOF > /etc/$2/server_agent.json
   "log_level": "DEBUG",
   "enable_syslog": true,
   "acl_enforce_version_8": false,
+  "dns_config": {
+    "allow_stale": true,
+    "max_stale": "2s",
+    "node_ttl": "30s",
+    "service_ttl": {
+      "*": "10s"
+    },
+    "a_record_limit": 1,
+    "enable_truncate": false,
+    "only_passing": false
+  },
 
   "enable_debug": true,
   "addresses": {
