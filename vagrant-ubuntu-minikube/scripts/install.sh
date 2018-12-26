@@ -18,4 +18,8 @@ echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/
 apt update
 apt -y install kubectl
 #kubectl version -o json
-minikube start
+
+#### Install Docker and start Minikube
+apt install -y docker.io
+minikube start --vm-driver=none
+
