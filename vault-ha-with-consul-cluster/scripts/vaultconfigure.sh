@@ -64,7 +64,7 @@ sudo chown -R $2:$2 /usr/local/bin/$2 /var/log/$2 /etc/$2 /var/run/$2
 sudo systemctl start $2.service && sudo systemctl enable $2.service
 #echo "export VAULT_ADDR='http://127.0.0.1:8200'" >> ~/.bash_profile
 echo 'export CONSUL_HTTP_SSL=true' >> ~/.bash_profile
-echo 'export CONSUL_HTTP_ADDR=https://$(ifconfig eth1 | grep "inet " | awk "{ print $2 }"):8500' >> ~/.bash_profile
+echo 'export CONSUL_HTTP_ADDR=https://$(ifconfig eth1 | grep 'inet ' | awk '{ print $2 }'):8500' >> ~/.bash_profile
 echo "export CONSUL_CACERT=/etc/$2/rootCA.crt" >> ~/.bash_profile
 echo "export CONSUL_CAPATH=/etc/$2/" >> ~/.bash_profile
 echo "export CONSUL_CLIENT_CERT=/etc/$2/consul.crt" >> ~/.bash_profile
