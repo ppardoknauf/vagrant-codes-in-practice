@@ -28,7 +28,7 @@ task "JavaJob" {
   }
 
   artifact {
-    source = "https://github.com/jamalshahverdiev/test/raw/master/spring-petclinic-2.1.0.BUILD-SNAPSHOT.jar"
+    source = "https://github.com/jamalshahverdiev/vagrant-codes-in-practice/blob/master/vagrant-nomad-consul-vault/temps/spring-petclinic-2.1.0.BUILD-SNAPSHOT.jar"
     destination = "local/"
   }
   resources {
