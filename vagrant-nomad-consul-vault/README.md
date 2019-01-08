@@ -4,8 +4,8 @@
 
 ##### To deploy everything use the following command:
 ```bash
-# git clone https://github.com/jamalshahverdiev/vault-ha-with-consul-cluster.git
-# cd vault-ha-with-consul-cluster && vagrant up
+# git clone https://github.com/jamalshahverdiev/vagrant-codes-in-practice.git && cd vagrant-codes-in-practice/vault-ha-with-consul-cluster
+# vagrant up
 ```
 
 ##### After deployment you need to see the following output with machines:
