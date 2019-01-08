@@ -4,7 +4,7 @@
 
 ##### To deploy everything use the following command:
 ```bash
-# git clone https://github.com/jamalshahverdiev/vagrant-codes-in-practice.git && cd vagrant-codes-in-practice/vault-ha-with-consul-cluster
+# git clone https://github.com/jamalshahverdiev/vagrant-codes-in-practice.git && cd vagrant-codes-in-practice/vagrant-nomad-consul-vault
 # vagrant up
 ```
 
