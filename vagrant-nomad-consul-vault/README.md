@@ -1,6 +1,6 @@
-### All these codes deploy Consul Cluster with VAULT HA in the 5 machines. 
+### All these codes deploy Nomad Cluster with the Consul Cluster in the 5 machines. 
 
-#### Between Consul Server and Client nodes will be used TLS. At the same time between Consul and Vault configured HTTPS. Vault client have to use HTTPS to connect to the server.
+#### Nomad servers and nodes will automatically connect to the Consul servers and agents.
 
 ##### To deploy everything use the following command:
 ```bash
