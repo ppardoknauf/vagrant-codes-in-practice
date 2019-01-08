@@ -1,0 +1,47 @@
+job "javaJob" {
+datacenters = ["dc1"]
+
+type = "service"
+
+update {
+stagger = "10s"
+max_parallel = 1
+}
+
+group "webapp" {
+count = 1
+
+restart {
+  attempts = 10
+  interval = "5m"
+  delay = "25s"
+  mode = "delay"
+}
+
+task "JavaJob" {
+  driver = "java"
+
+  config {
+    jar_path    = "local/spring-petclinic-2.1.0.BUILD-SNAPSHOT.jar"
+    #jvm_options = ["-Xmx600m", "-Xms256m"]
+    args = ["syslog"]
+  }
+
+  artifact {
+    source = "https://github.com/jamalshahverdiev/test/raw/master/spring-petclinic-2.1.0.BUILD-SNAPSHOT.jar"
+    destination = "local/"
+  }
+  resources {
+    cpu    = 100
+    memory = 500
+    network {
+      mbits = 10
+      port "http" {
+        static = 8082
+      }
+    }
+  }
+}
+
+}
+}
