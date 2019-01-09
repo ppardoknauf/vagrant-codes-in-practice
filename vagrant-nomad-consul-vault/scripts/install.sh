@@ -24,7 +24,7 @@ yum -y install bash-completion \
 	nc
 yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo && yum install -y docker-ce
 systemctl enable docker.service && systemctl start docker.service
-usermod -aG docker $(whoami) && pip install --upgrade pip && pip install docker-compose
+usermod -aG docker $(whoami) && pip install --upgrade pip && pip install docker-compose flask
 yum upgrade -y python*
 wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u191-b12/2787e4a523244c269598db4e85c51e0c/jdk-8u191-linux-x64.rpm"
 yum localinstall -y /home/vagrant/jdk-8u191-linux-x64.rpm
