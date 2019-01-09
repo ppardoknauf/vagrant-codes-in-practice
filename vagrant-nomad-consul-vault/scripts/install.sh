@@ -20,7 +20,8 @@ yum -y install bash-completion \
 	device-mapper-persistent-data \
 	lvm2 \
 	python-pip \
-	git
+	git \
+	nc
 yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo && yum install -y docker-ce
 systemctl enable docker.service && systemctl start docker.service
 usermod -aG docker $(whoami) && pip install --upgrade pip && pip install docker-compose
@@ -34,7 +35,7 @@ sudo echo 'export JAVA_HOME=/usr/java/jdk1.8.0_191-amd64/bin' >> ~/.bashrc
 echo 'export JAVA_HOME=/usr/java/jdk1.8.0_191-amd64/bin' >> /home/vagrant/.bashrc
 sed -i.bak -e 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
 sed -i.bak -e 's/keepcache=0/keepcache=1/' /etc/yum.conf 
-
+echo 'vm.overcommit_memory = 1' >> /etc/sysctl.conf
 sudo useradd -m -d /home/$1 --shell=/sbin/nologin $1
 sudo mkdir /etc/$1 && sudo chown -R $1:$1 /etc/$1
 

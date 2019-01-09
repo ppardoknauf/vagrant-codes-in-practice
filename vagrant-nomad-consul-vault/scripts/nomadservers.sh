@@ -24,6 +24,7 @@ client {
   network_interface = "eth1"
   options {
     "driver.raw_exec.enable" = "1"
+    "driver.exec.enable" = "1"
   }
 }
 
@@ -56,6 +57,7 @@ client {
     network_interface = "eth1"
     options {
       "driver.raw_exec.enable" = "1"
+      "driver.exec.enable" = "1"
     }
 }
 EOF
@@ -112,7 +114,7 @@ then
     #/usr/local/bin/nomad job init
     #/usr/local/bin/nomad job validate example.nomad
     #dockerRedisEval=$(/usr/local/bin/nomad plan example.nomad | grep 'example.nomad') && $dockerRedisEval
-    
+    NOMAD_ADDR=http://$1:4646
     /usr/local/bin/nomad job validate /vagrant/jobs/dockerApp.nomad
     dockerAppEval=$(/usr/local/bin/nomad plan /vagrant/jobs/dockerApp.nomad | grep 'dockerApp.nomad') && $dockerAppEval
     
