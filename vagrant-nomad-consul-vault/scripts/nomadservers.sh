@@ -120,9 +120,9 @@ then
     
     /usr/local/bin/nomad job validate /vagrant/jobs/javaApp.nomad
     javaAppEval=$(/usr/local/bin/nomad plan /vagrant/jobs/javaApp.nomad | grep 'javaApp.nomad') && $javaAppEval
-    #
-    #nomad job validate python-app.hcl
-    #pythonAppEval=$(nomad plan python-app.hcl | grep 'python-app.hcl') && $pythonAppEval
+    
+    /usr/local/bin/nomad job validate /vagrant/jobs/python-app.nomad
+    pythonAppEval=$(/usr/local/bin/nomad plan /vagrant/jobs/python-app.nomad | grep 'python-app.nomad') && $pythonAppEval
     #
     #nomad job stop -purge python-app
     #nomad job stop -purge java-app
