@@ -1,12 +1,10 @@
 #!/usr/bin/env bash
 
 wget https://releases.hashicorp.com/nomad/$3/nomad_$3_linux_amd64.zip
-unzip nomad_$3_linux_amd64.zip
-cp nomad /usr/local/bin/
+unzip nomad_$3_linux_amd64.zip -d /usr/bin/
 
 mkdir -p /etc/$2 /nomad-data /var/log/$2 /var/run/$2 
 
-#string=$1
 if [ "$(hostname)" = "nomadconsulsrv1" -o "$(hostname)" = "nomadconsulsrv2" -o "$(hostname)" = "nomadconsulsrv3" ]
 then
 cat <<EOF > /etc/$2/config.hcl
@@ -86,7 +84,7 @@ PIDFile=/var/run/$2/$2.pid
 PermissionsStartOnly=true
 ExecStartPre=-/bin/mkdir -p /var/run/$2
 ExecStartPre=/bin/chown -R root:root /var/run/$2
-ExecStart=/bin/bash -c "/usr/local/bin/$2 agent -config /etc/$2/config.hcl 2>&1 >> /var/log/$2/$2.log & echo \$! > /var/run/$2/$2.pid"
+ExecStart=/bin/bash -c "/usr/bin/$2 agent -config /etc/$2/config.hcl 2>&1 >> /var/log/$2/$2.log & echo \$! > /var/run/$2/$2.pid"
 ExecReload=/bin/kill -HUP \$MAINPID
 KillMode=process
 KillSignal=SIGTERM
@@ -98,7 +96,7 @@ WantedBy=multi-user.target
 EOF
 
 echo "export NOMAD_ADDR=http://$1:4646" >> ~/.bash_profile
-chown -R root:root /usr/local/bin/$2 /etc/$2 /nomad-data /var/log/$2 /etc/$2 /var/run/$2
+chown -R root:root /usr/bin/$2 /etc/$2 /nomad-data /var/log/$2 /etc/$2 /var/run/$2
 systemctl start $2.service && systemctl enable $2.service
 
 if [ "$(hostname)" = "nomadconsulagent2" ]
@@ -111,18 +109,19 @@ then
     #nomad alloc status $allocID
     #nomad alloc-status -short $allocID
     
-    #/usr/local/bin/nomad job init
-    #/usr/local/bin/nomad job validate example.nomad
-    #dockerRedisEval=$(/usr/local/bin/nomad plan example.nomad | grep 'example.nomad') && $dockerRedisEval
-    NOMAD_ADDR=http://$1:4646
-    /usr/local/bin/nomad job validate /vagrant/jobs/dockerApp.nomad
-    dockerAppEval=$(/usr/local/bin/nomad plan /vagrant/jobs/dockerApp.nomad | grep 'dockerApp.nomad') && $dockerAppEval
+    #nomad job init
+    #nomad job validate example.nomad
+    #dockerRedisEval=$(nomad plan example.nomad | grep 'example.nomad') && $dockerRedisEval
+    sleep 5
+    export NOMAD_ADDR=http://$1:4646
+    nomad job validate /vagrant/jobs/dockerApp.nomad
+    dockerAppEval=$(nomad plan /vagrant/jobs/dockerApp.nomad | grep 'dockerApp.nomad') && $dockerAppEval
     
-    /usr/local/bin/nomad job validate /vagrant/jobs/javaApp.nomad
-    javaAppEval=$(/usr/local/bin/nomad plan /vagrant/jobs/javaApp.nomad | grep 'javaApp.nomad') && $javaAppEval
+    nomad job validate /vagrant/jobs/javaApp.nomad
+    javaAppEval=$(nomad plan /vagrant/jobs/javaApp.nomad | grep 'javaApp.nomad') && $javaAppEval
     
-    /usr/local/bin/nomad job validate /vagrant/jobs/python-app.nomad
-    pythonAppEval=$(/usr/local/bin/nomad plan /vagrant/jobs/python-app.nomad | grep 'python-app.nomad') && $pythonAppEval
+    nomad job validate /vagrant/jobs/pythonApp.nomad
+    pythonAppEval=$(nomad plan /vagrant/jobs/pythonApp.nomad | grep 'pythonApp.nomad') && $pythonAppEval
     #
     #nomad job stop -purge python-app
     #nomad job stop -purge java-app
