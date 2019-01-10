@@ -1,4 +1,4 @@
-job "python-app" {
+job "pythonApp" {
   # Specify this job should run in the region named "global"
   region = "global"
 
@@ -14,7 +14,7 @@ job "python-app" {
     count = 1
 
     # Create an individual task (unit of work)
-    task "python-app" {
+    task "pythonApp" {
       driver = "exec"
 
       # Defines that the job should run an linux machine
@@ -27,17 +27,17 @@ job "python-app" {
       config {
         command = "/bin/sh"
         args = [
-          "/local/install_run.sh"]
+          "/local/dlLibsRun.sh"]
       }
 
       # Defines the source of the artifact which should be downloaded
       artifact {
-        source = "https://github.com/tomiloza/nomad-consul-demo/raw/master/apps/python/app.tgz"
+        source = "https://github.com/jamalshahverdiev/vagrant-codes-in-practice/raw/master/vagrant-nomad-consul-vault/temps/pyApp.tgz"
       }
 
       # The service block tells Nomad how to register this service with Consul for service discovery and monitoring.
       service {
-        name = "python-app"
+        name = "pythonApp"
         port = "http"
 
         tags = [
