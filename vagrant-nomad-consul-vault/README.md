@@ -5,139 +5,140 @@
 ##### To deploy everything use the following command:
 ```bash
 # git clone https://github.com/jamalshahverdiev/vagrant-codes-in-practice.git && cd vagrant-codes-in-practice/vagrant-nomad-consul-vault
-# vagrant up
+# vagrant up && vagrant ssh nomadagent2
 ```
 
-##### After deployment you need to see the following output with machines:
+##### After deployment you need to see the following output with the server nodes:
 ```bash
-$ vagrant.exe status | grep running
-consulserver1             running (virtualbox)
-consulserver2             running (virtualbox)
-consulserver3             running (virtualbox)
-consulagent1              running (virtualbox)
-consulagent2              running (virtualbox)
+$ sudo su -
+# nomad server members
+Name                    Address      Port  Status  Leader  Protocol  Build  Datacenter  Region
+nomadconsulsrv1.global  10.1.42.101  4648  alive   true    2         0.8.6  dc1         global
+nomadconsulsrv2.global  10.1.42.102  4648  alive   false   2         0.8.6  dc1         global
+nomadconsulsrv3.global  10.1.42.103  4648  alive   false   2         0.8.6  dc1         global
 ```
 
-##### Try to connect to the one of the Consul agent nodes and look at the members:
+##### To look at the list of all nodes use the following command:
 ```bash
-$ vagrant.exe ssh consulagent2
-Last login: Sat Sep 22 17:28:06 2018 from 10.0.2.2
-[vagrant@convalc2 ~]$ sudo su -
-Last login: Sat Sep 22 17:28:48 UTC 2018 on pts/0
-[root@convalc2 ~]# consul members -http-addr=https://cert.domain.name:8500
-Node       Address           Status  Type    Build  Protocol  DC   Segment
-consul_s1  10.1.42.101:8301  alive   server  1.2.3  2         dc1  <all>
-consul_s2  10.1.42.102:8301  alive   server  1.2.3  2         dc1  <all>
-consul_s3  10.1.42.103:8301  alive   server  1.2.3  2         dc1  <all>
-consul_c1  10.1.42.201:8301  alive   client  1.2.3  2         dc1  <default>
-consul_c2  10.1.42.202:8301  alive   client  1.2.3  2         dc1  <default>
+# nomad node status
+ID        DC   Name               Class   Drain  Eligibility  Status
+4828d32f  dc1  nomadconsulagent2  <none>  false  eligible     ready
+df0a9f35  dc1  nomadconsulagent1  <none>  false  eligible     ready
+3c85ca72  dc1  nomadconsulsrv1    <none>  false  eligible     ready
+fbb79d22  dc1  nomadconsulsrv3    <none>  false  eligible     ready
+6418d463  dc1  nomadconsulsrv2    <none>  false  eligible     ready
 ```
 
-##### Look at the CLUSTER leader:
+##### Look at the all Job statuses:
 ```bash
-[root@convalc2 ~]# consul operator raft list-peers -http-addr=https://$3:8500
-Node       ID                                    Address           State     Voter  RaftProtocol
-consul_s1  44366bb8-3651-2768-8eb4-1c8d482ef68a  10.1.42.101:8300  leader    true   3
-consul_s2  ff13f07d-6ace-5624-b2c9-635ef54d9bf6  10.1.42.102:8300  follower  true   3
-consul_s3  d3ce9e88-6105-f214-301a-f88b7e2e1e4e  10.1.42.103:8300  follower  true   3
+# nomad job status
+ID              Type     Priority  Status   Submit Date
+dockerNginxApp  service  50        running  2019-01-10T21:51:59Z
+javaJob         service  50        running  2019-01-10T21:52:00Z
+pythonApp       service  50        running  2019-01-10T21:52:01Z
 ```
 
-##### Between Consul agent in server and client mode I have used Enrypt key. If you want to generate the new encrypt key in the CLUSTER just use the following command:
+##### Look at the deployment list:
 ```bash
-# consul keygen
+# nomad deployment list
+ID        Job ID   Job Version  Status      Description
+86f9f65b  javaJob  0            successful  Deployment completed successfully
 ```
 
-##### After deployment to call vault use the following environment variable (As we see our server is not initialized):
+##### Look at the deployment status of the "ID: 86f9f65b":
 ```bash
-[root@convalc2 ~]# vault status --tls-skip-verify
-Error checking seal status: Error making API request.
+# nomad deployment status 86f9f65b
+ID          = 86f9f65b
+Job ID      = javaJob
+Job Version = 0
+Status      = successful
+Description = Deployment completed successfully
 
-URL: GET https://127.0.0.1:8200/v1/sys/seal-status
-Code: 400. Errors:
-
-* server is not yet initialized
+Deployed
+Task Group  Desired  Placed  Healthy  Unhealthy  Progress Deadline
+webapp      1        1       1        0          2019-01-10T22:02:37Z
 ```
 
-##### Initialize new Vault server to store keys in the vault/ db in the consul (Of course output in your case will be different):
+##### Look at the Job status with the "ID: pythonApp":
 ```bash
-[root@convalc2 ~]# vault operator init -key-shares=3 -key-threshold=2
-Unseal Key 1: 9Jsf9F0xRP3okJNAW1JU4k6tWhlHxso+ApBGw2awvXpg
-Unseal Key 2: oRaN1v5tSK1pwlsB1S2hjFm6gx1FiWfljaINbKlcWEKU
-Unseal Key 3: cQKs8TbOs/WGyinHuYHBvjfUb70V5ARZyTPAXwP5jtjc
+# nomad job status pythonApp
+ID            = pythonApp
+Name          = pythonApp
+Submit Date   = 2019-01-11T07:50:41Z
+Type          = service
+Priority      = 50
+Datacenters   = dc1
+Status        = running
+Periodic      = false
+Parameterized = false
 
-Initial Root Token: ace35853-6e71-0202-6eb1-4db31e3b9d06
+Summary
+Task Group  Queued  Starting  Running  Failed  Complete  Lost
+server      0       0         1        0       0         0
 
-Vault initialized with 3 key shares and a key threshold of 2. Please securely
-distribute the key shares printed above. When the Vault is re-sealed,
-restarted, or stopped, you must supply at least 2 of these keys to unseal it
-before it can start servicing requests.
-
-Vault does not store the generated master key. Without at least 2 key to
-reconstruct the master key, Vault will remain permanently sealed!
-
-It is possible to generate new unseal keys, provided you have a quorum of
-existing unseal keys shares. See "vault operator rekey" for more information.
+Allocations
+ID        Node ID   Task Group  Version  Desired  Status   Created  Modified
+fbf7b184  3c85ca72  server      0        run      running  17s ago  14s ago
 ```
 
-##### From previous command as we see our database is sealed. To unseal just use the following command. Then write some credential to the database and read it:
+##### Look at the allocation status(-verbose will print more detail) of the "ID: fbf7b184":
 ```bash
-[root@convalc2 ~]# vault operator unseal 9Jsf9F0xRP3okJNAW1JU4k6tWhlHxso+ApBGw2awvXpg
-Key                Value
----                -----
-Seal Type          shamir
-Sealed             true
-Total Shares       3
-Threshold          2
-Unseal Progress    1/2
-Unseal Nonce       9a0ada86-df53-959b-85f3-c45280689eea
-Version            0.11.1
-HA Enabled         true
-[root@convalc2 ~]# vault operator unseal oRaN1v5tSK1pwlsB1S2hjFm6gx1FiWfljaINbKlcWEKU
-Key                    Value
----                    -----
-Seal Type              shamir
-Sealed                 false
-Total Shares           3
-Threshold              2
-Version                0.11.1
-Cluster Name           vault-cluster-53690fe5
-Cluster ID             a8e76233-e224-1a86-3ba0-337dd84093c4
-HA Enabled             true
-HA Cluster             n/a
-HA Mode                standby
-Active Node Address    <none>
-[root@convalc2 ~]# vault login ace35853-6e71-0202-6eb1-4db31e3b9d06
-Success! You are now authenticated. The token information displayed below
-is already stored in the token helper. You do NOT need to run "vault login"
-again. Future Vault requests will automatically use this token.
+# nomad alloc status fbf7b184
+ID                  = fbf7b184
+Eval ID             = 2e999fdf
+Name                = pythonApp.server[0]
+Node ID             = 3c85ca72
+Job ID              = pythonApp
+Job Version         = 0
+Client Status       = running
+Client Description  = <none>
+Desired Status      = run
+Desired Description = <none>
+Created             = 3m31s ago
+Modified            = 3m11s ago
 
-Key                  Value
----                  -----
-token                ace35853-6e71-0202-6eb1-4db31e3b9d06
-token_accessor       41afc994-e689-372b-6983-d2815340fc34
-token_duration       ∞
-token_renewable      false
-token_policies       ["root"]
-identity_policies    []
-policies             ["root"]
+Task "pythonApp" is "running"
+Task Resources
+CPU         Memory          Disk     IOPS  Addresses
+23/500 MHz  30 MiB/256 MiB  300 MiB  0     http: 10.1.42.101:9080
 
-[root@convalc2 ~]# vault write secret/db-staging name=sa password=1
-Success! Data written to: secret/db-staging
-[root@convalc2 ~]# vault read secret/db-staging
-Key                 Value
----                 -----
-refresh_interval    768h
-name                sa
-password            1
+Task Events:
+Started At     = 2019-01-11T07:50:44Z
+Finished At    = N/A
+Total Restarts = 0
+Last Restart   = N/A
+
+Recent Events:
+Time                  Type                   Description
+2019-01-11T07:50:44Z  Started                Task started by client
+2019-01-11T07:50:43Z  Downloading Artifacts  Client is downloading artifacts
+2019-01-11T07:50:41Z  Task Setup             Building Task Directory
+2019-01-11T07:50:41Z  Received               Task received by client
 ```
 
-
-##### At the end unseal consul DB in the first node and read the database which we created in the second node:
+##### Look at the allocation logs(-tail -f read online) of the "ID: fbf7b184": 
 ```bash
-[root@convalc1 ~]# vault read secret/db-staging
-Key                 Value
----                 -----
-refresh_interval    768h
-name                sa
-password            1
+# nomad alloc logs fbf7b184 | tail -n5
+ * Serving Flask app "routes" (lazy loading)
+ * Environment: production
+   WARNING: Do not use the development server in a production environment.
+   Use a production WSGI server instead.
+ * Debug mode: on
 ```
+
+##### Look at the file system content of the allocation "ID: fbf7b184":
+```bash
+# nomad alloc fs -verbose fbf7b184 pythonApp/local/
+Mode        Size     Modified Time         Name
+-rwxr-xr-x  91 B     2019-01-10T20:34:21Z  dlLibsRun.sh
+-rw-r--r--  150 B    2019-01-10T20:30:09Z  requirements.txt
+-rw-r--r--  527 B    2019-01-10T20:32:59Z  routes.py
+drwxr-xr-x  4.0 KiB  2019-01-10T20:30:09Z  static/
+drwxr-xr-x  4.0 KiB  2019-01-10T20:30:09Z  templates/
+```
+
+##### After deployment of Docker, Java and Python applications we must open the Nomad UI page with this URL *http://10.1.42.101:4646* and see the following output:
+![Nomad UI image](https://github.com/jamalshahverdiev/vagrant-codes-in-practice/blob/master/vagrant-nomad-consul-vault/images/nomadui.png)
+
+##### To look services in Consul UI use this URL *http://10.1.42.101:8500*:
+![Consul UI image](https://github.com/jamalshahverdiev/vagrant-codes-in-practice/blob/master/vagrant-nomad-consul-vault/images/consului.png)
