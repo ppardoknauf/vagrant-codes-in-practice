@@ -36,9 +36,7 @@ task "JavaJob" {
     memory = 500
     network {
       mbits = 10
-      port "http" {
-        static = 8082
-      }
+      port "http" { static = 8080 }
     }
   }
 }
