@@ -157,7 +157,7 @@ http://10.1.42.102:8080
 
 
 
-##### To get Java Application listener we can use the following commands:
+##### To get Docker Application listener we can use the following commands:
 ```bash
 # dockerJobName=$(nomad job status | grep docker | awk '{ print $1 }')
 # dockerJobID=$(nomad job status $dockerJobName | tail -n1 | awk '{ print $1 }')
