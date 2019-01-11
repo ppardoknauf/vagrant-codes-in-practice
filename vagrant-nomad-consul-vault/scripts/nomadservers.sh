@@ -129,7 +129,7 @@ then
     #nomad deployment list
     #nomad deployment status 2cf8ff7f
     ################# ALLOCATION ###############
-    #nomad alloc fs 2dca2684
+    #nomad alloc fs -verbose 2dca2684 pythonApp/local/
     #nomad alloc status 2dca2684
     #nomad alloc status -verbose 02cfbef5
     #nomad alloc logs 62e6f3dd
