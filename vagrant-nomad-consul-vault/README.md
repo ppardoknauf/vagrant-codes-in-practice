@@ -142,3 +142,31 @@ drwxr-xr-x  4.0 KiB  2019-01-10T20:30:09Z  templates/
 
 ##### To look services in Consul UI use this URL *http://10.1.42.101:8500*:
 ![Consul UI image](https://github.com/jamalshahverdiev/vagrant-codes-in-practice/blob/master/vagrant-nomad-consul-vault/images/consului.png)
+
+##### To get Java Application listener we can use the following commands:
+```bash
+# jobName=$(nomad job status | grep java | awk '{ print $1 }')
+# javaAllocID=$(nomad job status $jobName | tail -n1 | awk '{ print $1 }')
+# javaAppIP=$(nomad alloc status $javaAllocID | grep http | awk '{ print $(NF)}' | cut -f1 -d ':')
+# javaAppPort=$(nomad alloc logs $javaAllocID | grep 'Tomcat started on port' | awk '{ print $(NF-5)}')
+# echo "http://$javaAppIP:$javaAppPort"
+http://10.1.42.102:8080
+```
+
+##### Open the URL *http://10.1.42.102:8080* to see the Java Spring page:
+![Spring URL Image](https://github.com/jamalshahverdiev/vagrant-codes-in-practice/blob/master/vagrant-nomad-consul-vault/images/spring.png)
+
+
+
+##### To get Java Application listener we can use the following commands:
+```bash
+# dockerJobName=$(nomad job status | grep docker | awk '{ print $1 }')
+# dockerJobID=$(nomad job status $dockerJobName | tail -n1 | awk '{ print $1 }')
+# echo http://$(nomad alloc status $dockerJobID | grep web_port | awk '{ print $(NF)}')
+http://10.1.42.101:25519
+```
+
+##### Open the URL *http://10.1.42.101:25519* to see the dockered Nginx page:
+![Spring URL Image](https://github.com/jamalshahverdiev/vagrant-codes-in-practice/blob/master/vagrant-nomad-consul-vault/images/docker.png)
+
+
