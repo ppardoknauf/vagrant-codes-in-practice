@@ -163,10 +163,10 @@ http://10.1.42.102:8080
 # dockerJobName=$(nomad job status | grep docker | awk '{ print $1 }')
 # dockerJobID=$(nomad job status $dockerJobName | tail -n1 | awk '{ print $1 }')
 # echo http://$(nomad alloc status $dockerJobID | grep web_port | awk '{ print $(NF)}')
-http://10.1.42.101:25519
+http://10.1.42.101:8889
 ```
 
-##### Open the URL *http://10.1.42.101:25519* to see the dockered Nginx page:
+##### Open the URL *http://10.1.42.101:8889* to see the dockered Nginx page:
 ![Spring URL Image](https://github.com/jamalshahverdiev/vagrant-codes-in-practice/blob/master/vagrant-nomad-consul-vault/images/docker.png)
 
 

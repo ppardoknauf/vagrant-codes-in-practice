@@ -43,6 +43,7 @@ job "dockerNginxApp" {
         network {
           mbits = 20
           port "web_port" {
+	      static = "8889"
           }
         }
       }
