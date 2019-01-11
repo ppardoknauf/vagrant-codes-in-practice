@@ -147,9 +147,8 @@ drwxr-xr-x  4.0 KiB  2019-01-10T20:30:09Z  templates/
 ```bash
 # jobName=$(nomad job status | grep java | awk '{ print $1 }')
 # javaAllocID=$(nomad job status $jobName | tail -n1 | awk '{ print $1 }')
-# javaAppIP=$(nomad alloc status $javaAllocID | grep http | awk '{ print $(NF)}' | cut -f1 -d ':')
-# javaAppPort=$(nomad alloc logs $javaAllocID | grep 'Tomcat started on port' | awk '{ print $(NF-5)}')
-# echo "http://$javaAppIP:$javaAppPort"
+# javaAppIP=$(nomad alloc status $javaAllocID | grep http | awk '{ print $(NF)}')
+# echo "http://$javaAppIP"
 http://10.1.42.102:8080
 ```
 
