@@ -170,3 +170,14 @@ http://10.1.42.101:25519
 ![Spring URL Image](https://github.com/jamalshahverdiev/vagrant-codes-in-practice/blob/master/vagrant-nomad-consul-vault/images/docker.png)
 
 
+
+##### To get Python Application listener we can use the following commands:
+```bash
+# pythonJobName=$(nomad job status | grep python | awk '{ print $1 }')
+# pythonJobID=$(nomad job status $pythonJobName | tail -n1 | awk '{ print $1 }')
+# echo http://$(nomad alloc status $pythonJobID | grep http | awk '{ print $(NF)}')
+http://10.1.42.101:9080
+```
+
+##### Open the URL *http://10.1.42.101:9080* to see the Python Flask page:
+![Spring URL Image](https://github.com/jamalshahverdiev/vagrant-codes-in-practice/blob/master/vagrant-nomad-consul-vault/images/python.png)
