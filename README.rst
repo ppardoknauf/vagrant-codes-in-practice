@@ -6,6 +6,7 @@ In this repository I will store all type of Vagrant deployments
 * `Install/Configure Vault HA with Consul and Nomad Cluster <https://github.com/jamalshahverdiev/vagrant-codes-in-practice/tree/master/vagrant-nomad-consul-vault>`_
 * `Install/Configure Elasticsearch Cluster with Snapshots <https://github.com/jamalshahverdiev/vagrant-codes-in-practice/tree/master/vagrant-elasticsearch-cluster-with-snapshot>`_
 * `Install/Configure Docker Swarm Cluster with Vagrant <https://github.com/jamalshahverdiev/vagrant-codes-in-practice/tree/master/docker-swarm-vagrant>`_
+* `Install/Configure Kubernetes Cluster with Vagrant <https://github.com/jamalshahverdiev/vagrant-codes-in-practice/tree/master/vagrant-kubernetes>`_
 * `Deploy Virtual machine via vCenter API  <https://github.com/jamalshahverdiev/vagrant-codes-in-practice/tree/master/vagrant-vsphere-ansible>`_
 * `Install/Configure Keycloak Cluster with MySQL database <https://github.com/jamalshahverdiev/vagrant-codes-in-practice/tree/master/vagrant-keycloak-cluster-mysql>`_
 * `Install/Configure 2 Nginx Python web server in from with HA load balancer <https://github.com/jamalshahverdiev/vagrant-codes-in-practice/tree/master/vagrant-nginx-uwsgi>`_
