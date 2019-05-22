@@ -4,8 +4,7 @@ cat <<EOF >> /etc/fstab
 $1:/etc/elasticsearch/elasticsearch-backup /etc/elasticsearch/elasticsearch-backup nfs defaults 0 0
 EOF
 
-sudo mount -a
-
+mount -a
 
 if [ "$(hostname)" != "elknd3" ]
 then
@@ -16,7 +15,7 @@ fi
 while [ "$(curl -s -XGET "http://$1:9200/_cluster/state?pretty" | jq '.nodes' | grep 9300 | wc -l)" != "4" ]
 do
     sleep 3
-    echo "Waiting till full cluster environment will be up and running!"
+    echo "Waiting until full cluster environment will be up and running!"
 done
 
 

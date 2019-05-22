@@ -2,7 +2,7 @@
 
 rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
 
-sudo cat <<'EOF' > /etc/yum.repos.d/elasticsearch.repo
+cat <<'EOF' > /etc/yum.repos.d/elasticsearch.repo
 [elasticsearch-6.x]
 name=Elasticsearch repository for 6.x packages
 baseurl=https://artifacts.elastic.co/packages/6.x/yum
@@ -13,9 +13,9 @@ autorefresh=1
 type=rpm-md
 EOF
 
-sudo yum install -y elasticsearch 
-sudo cp /etc/elasticsearch/elasticsearch.yml /root 
-sudo cat <<EOF > /etc/elasticsearch/elasticsearch.yml
+yum install -y elasticsearch 
+cp /etc/elasticsearch/elasticsearch.yml /root 
+cat <<EOF > /etc/elasticsearch/elasticsearch.yml
 path.data: /var/lib/elasticsearch
 path.logs: /var/log/elasticsearch
 path.repo: ["/etc/elasticsearch/elasticsearch-backup"]
@@ -29,8 +29,8 @@ discovery.zen.ping.unicast.hosts: ["192.168.120.40", "192.168.120.21","192.168.1
 #discovery.zen.minimum_master_nodesdiscovery.zen.minimum_master_nodes: 2
 EOF
 
-sudo touch /etc/elasticsearch/elasticsearch.keystore
-sudo chown -R elasticsearch:elasticsearch /etc/elasticsearch/
-sudo chmod -R 750 /etc/elasticsearch/
-sudo systemctl enable elasticsearch && sudo systemctl start elasticsearch
+touch /etc/elasticsearch/elasticsearch.keystore
+chown -R elasticsearch:elasticsearch /etc/elasticsearch/
+chmod -R 750 /etc/elasticsearch/
+systemctl enable elasticsearch && systemctl start elasticsearch
 

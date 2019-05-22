@@ -1,15 +1,10 @@
 #!/usr/bin/env bash
-sudo yum clean all && sudo yum update -y
-sudo yum -y install epel-release && sudo yum -y install bash-completion net-tools bind-utils wget telnet vim expect gcc-c++ make jq unzip nfs-utils
-#wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u181-b13/96a7b8442fe848ef90c96a2fad6ed6d1/jre-8u181-linux-x64.rpm"
-wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "https://download.oracle.com/otn-pub/java/jdk/8u201-b09/42970487e3af4f5aa5bca3f542482c60/jdk-8u201-linux-x64.rpm"
-sudo yum localinstall -y /home/vagrant/jdk-8u201-linux-x64.rpm
-sudo sed -i.bak -e 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
-sudo systemctl restart sshd
-sudo systemctl stop firewalld && sudo systemctl disable firewalld
-sudo echo 'export JAVA_HOME=/usr/java/jdk1.8.0_201-amd64/bin' >> ~/.bashrc
-echo 'export JAVA_HOME=/usr/java/jdk1.8.0_201-amd64/bin' >> /home/vagrant/.bashrc
-#sudo echo 'export JAVA_HOME=/usr/java/jre1.8.0_181-amd64/bin/java' >> ~/.bashrc
-#sudo echo 'export JAVA_HOME=/usr/java/jre1.8.0_181-amd64/bin/java' >> /home/vagrant/.bashrc
-sudo sed -i.bak -e 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
-sudo sed -i.bak -e 's/keepcache=0/keepcache=1/' /etc/yum.conf 
+yum clean all && yum update -y
+yum -y install epel-release && yum -y install bash-completion net-tools bind-utils wget telnet vim expect gcc-c++ make jq unzip nfs-utils java-1.8.0-openjdk.x86_64 java-1.8.0-openjdk-devel.x86_64
+sed -i.bak -e 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
+systemctl restart sshd
+systemctl stop firewalld && systemctl disable firewalld
+echo "export JAVA_HOME=/usr/lib/jvm/$(ls /usr/lib/jvm/ | grep java-1.8.0-openjdk-)" >> ~/.bashrc
+echo "export JAVA_HOME=/usr/lib/jvm/$(ls /usr/lib/jvm/ | grep java-1.8.0-openjdk-)" >> /home/vagrant/.bashrc
+sed -i.bak -e 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
+sed -i.bak -e 's/keepcache=0/keepcache=1/' /etc/yum.conf 

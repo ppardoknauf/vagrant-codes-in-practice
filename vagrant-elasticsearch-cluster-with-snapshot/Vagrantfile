@@ -5,7 +5,6 @@ ip = "192.168.120.40"
 
 current_dir = File.dirname(File.expand_path(__FILE__))
 Vagrant.configure("2") do |elk|
-  require './vagrant-provision-reboot-plugin'
   elk.vm.box = "centos/7"
   elk.vm.define "elk" do |subelk|
     subelk.vm.network :private_network, ip: ip
@@ -18,7 +17,7 @@ Vagrant.configure("2") do |elk|
     subelk.vm.provision "shell", path: "scripts/install.sh"
     subelk.vm.provision "shell", path: "scripts/elkinstall.sh", args: ip
     subelk.vm.provision "shell", path: "scripts/nfssrvconf.sh", args: ip
-    subelk.vm.provision :unix_reboot
+    subelk.vm.provision :reload
   end
   (1..3).each do |i|
      elk.vm.define "elknd#{i}" do |elkndconfig|
@@ -32,7 +31,7 @@ Vagrant.configure("2") do |elk|
        end
        elkndconfig.vm.provision "shell", path: "scripts/install.sh"     
        elkndconfig.vm.provision "shell", path: "scripts/elknodes.sh", args: "#{i}"
-       elkndconfig.vm.provision :unix_reboot
+       elkndconfig.vm.provision :reload
        elkndconfig.vm.provision "shell", path: "scripts/importDataGetSnapshot.sh", args: ip
      end
   end
