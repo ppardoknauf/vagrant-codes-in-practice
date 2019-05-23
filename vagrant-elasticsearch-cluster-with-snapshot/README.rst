@@ -15,6 +15,7 @@ When cluster will be UP and ready scripts will download some sample databases fr
 Vagrant Virtual machines:
 
 .. code-block:: bash
+
     elk
     elknd1
     elknd2
@@ -25,6 +26,7 @@ Look at the content of the `Vagrantfile <https://github.com/jamalshahverdiev/vag
 To execute the environment just download all code files from Git repository and run Vagrant.
 
 .. code-block:: bash
+
     # git clone https://github.com/jamalshahverdiev/vagrant-elasticsearch-cluster-with-snapshot.git
     # cd vagrant-elasticsearch-cluster-with-snapshot && vagrant up
 
@@ -32,17 +34,20 @@ To restore Snapshot from *CLUSTER1* to the *CLUSTER2* just configure CLUSTER2(Sn
 In the **CLUSTER1** archive content of the **/etc/elasticsearch/elasticsearch-backup** folder to the **elksnapshot.tar.gz** file:
 
 .. code-block:: bash
+
     # cd /etc/elasticsearch/elasticsearch-backup && tar -zcvf elksnapshot.tar.gz .
 
 In the **CLUSTER2** upload the archived **elksnapshot.tar.gz** file from **CLUSTER1** to the **/etc/elasticsearch/elasticsearch-backup** folder and then extract it:
 
 .. code-block:: bash
+
     # cp /root/elksnapshot.tar.gz /etc/elasticsearch/elasticsearch-backup
     # cd /etc/elasticsearch/elasticsearch-backup && tar -zxvf elksnapshot.tar.gz
 
 Configure snapshot PATH in the cluster:
 
 .. code-block:: bash
+
     # curl -s -H 'Content-Type: application/json' -XPUT "http://192.168.120.40:9200/_snapshot/all-backup" -d '
     {
     "type": "fs",
@@ -55,22 +60,26 @@ Configure snapshot PATH in the cluster:
 Look at the snapshot which you created before and extracted arcive from previous Snapshot (As we can see we have **5** indices, **3** logstash, **1** bank and **1** Shakespeare):
 
 .. code-block:: bash
+
     [root@elkmaster elasticsearch-backup]# curl -s -H 'Content-Type: application/json' -XGET "http://192.168.120.40:9200/_snapshot/all-backup/_all" | jq
 
 If you try to get list of the indices it will be empty:
 
 .. code-block:: bash
+
     # curl -s -H 'Content-Type: application/json' -XGET "http://192.168.120.40:9200/_cat/indices"
 
 Restore **snapshot-number-one** which we created in the **CLUSTER1**:
 
 .. code-block:: bash
+
     # curl -s -H 'Content-Type: application/json' -XPOST "http://192.168.120.40:9200/_snapshot/all-backup/snapshot-number-one/_restore"
     {"accepted":true}
 
 Look at the indices count:
 
 .. code-block:: bash
+
     # curl -s -H 'Content-Type: application/json' -XGET "http://192.168.120.40:9200/_cat/indices"
     green open shakespeare         pq4620uoQOiXXC-lQKwi-Q 5 1 111396 0  45.8mb 22.9mb
     green open logstash-2015.05.18 QlFO8vHxSPyBBZ0JbKa0mw 5 1   4631 0  51.5mb 25.7mb
@@ -81,5 +90,6 @@ Look at the indices count:
 Look at the selected Snapshot:
 
 .. code-block:: bash
+
     [root@elkmaster elasticsearch-backup]# curl -s -H 'Content-Type: application/json' -XGET "http://192.168.120.40:9200/_snapshot/all-backup/snapshot-number-one" | jq
 
