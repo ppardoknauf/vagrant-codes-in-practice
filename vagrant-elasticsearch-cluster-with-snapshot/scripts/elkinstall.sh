@@ -38,6 +38,7 @@ yum install -y kibana
 cp /etc/kibana/kibana.yml /root
 cat <<EOF > /etc/kibana/kibana.yml
 server.host: "$1"
+elasticsearch.url: ["http://$1:9200"]
 EOF
 
 systemctl enable kibana && systemctl start kibana
