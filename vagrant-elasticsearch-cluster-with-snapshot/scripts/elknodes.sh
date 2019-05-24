@@ -26,7 +26,7 @@ node.data: true
 network.host: [_local_, _site_]
 http.port: 9200
 discovery.zen.ping.unicast.hosts: ["192.168.120.40", "192.168.120.21","192.168.120.22","192.168.120.23"]
-#discovery.zen.minimum_master_nodesdiscovery.zen.minimum_master_nodes: 2
+discovery.zen.minimum_master_nodes: 3
 EOF
 
 touch /etc/elasticsearch/elasticsearch.keystore
