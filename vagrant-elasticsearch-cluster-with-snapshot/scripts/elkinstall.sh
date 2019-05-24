@@ -19,9 +19,9 @@ cat <<EOF > /etc/elasticsearch/elasticsearch.yml
 path.data: /var/lib/elasticsearch
 path.repo: ["/etc/elasticsearch/elasticsearch-backup"]
 path.logs: /var/log/elasticsearch
-cluster.name: elkepam
+cluster.name: elkprospect
 node.name: node-master
-node.master: true
+#node.master: true
 node.data: true
 network.host: [_local_, _site_]
 http.port: 9200
