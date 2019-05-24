@@ -23,7 +23,7 @@ cluster.name: elkprospect
 node.name: elknd$1
 #node.master: false
 node.data: true
-network.host: [_local_, _site_]
+network.host: [_local_, "192.168.120.2$1"]
 http.port: 9200
 discovery.zen.ping.unicast.hosts: ["192.168.120.40", "192.168.120.21","192.168.120.22","192.168.120.23"]
 discovery.zen.minimum_master_nodes: 3
